@@ -1,51 +1,72 @@
-const arr = initArr()
-let userScore = 1
-let computerScore = 1
+//Array for computer
+const arr = ['rock', 'paper', 'scissor']
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//createElement////////////////////////////////////////////////////////////////////////////////////////////////
+//Create playDiv
+const playDiv = document.createElement('div')
+    //Create text in playDiv
+const gameStatusText = document.createElement('h1')
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//BTN value
+const btn = document.querySelectorAll('button')
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Container Div
+const divContainer = document.querySelector("#container")
+
+//User container
+const divUserContainer = document.querySelector("#userContainer")
+const userTextContainer = document.querySelector("#userTextContainer")
+const h2UserScore = document.querySelector("#userScore")
+
+//Computer Container
+const divComputerContainer = document.querySelector("#computerContainer")
+const computerTextContainer = document.querySelector("#computerTextContainer")
+const h2ComputerScore = document.querySelector('#computerScore')
 
 
-//Initialiaze Array
-function initArr() {
-    const arr = ['rock', 'paper', 'scissor']
-    return arr
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//misc. var
+let computerScore = 0
+let userScore = 0
+let round = 0
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Computer and userInput
 function computerOutput() {
     let computerPlay = arr[Math.floor(Math.random() * 3)];
     return computerPlay
 }
 
-function userInput() {
-    let userInput = prompt("Rock, Paper, Scissor").toLowerCase();
-    const verifiedUserInput = checkInput(userInput)
-    return verifiedUserInput
-}
 
 
 //Play module
-function play(userPlay, computerPlay) {
-    if (userPlay == "rock") {
+function play(userInput, computerPlay) {
+    let userStatus = ''
+    if (userInput == "rock") {
         // computer rock = draw
         if (computerPlay == 'rock') {
-            return "Draw"
+            userStatus = "Draw"
         }
         // computer scissor =  win
         else if (computerPlay == 'scissor') {
             userScore++
-            return 'You win'
+            userStatus = 'You win'
         }
         // computer paper = loose
         else if (computerPlay == "paper") {
             computerScore++
-            return "You loose"
+            userStatus = "You loose"
         } else {
-            return "err"
+            userStatus = "err"
         }
-    } else if (userPlay == "scissor") {
+    } else if (userInput == "scissor") {
         // computer rock = loose
         if (computerPlay == 'rock') {
             computerScore++
-            return "You loose"
+            userStatus = "You loose"
         }
         // computer scissor =  drwa
         else if (computerPlay == 'scissor') {
@@ -54,73 +75,114 @@ function play(userPlay, computerPlay) {
         // computer paper = win
         else if (computerPlay == "paper") {
             userScore++
-            return "You Win"
+            userStatus = "You win"
         } else {
-            return "err"
+            userStatus = "err"
         }
-    } else if (userPlay == "paper") {
+    } else if (userInput == "paper") {
         // computer rock = win
         if (computerPlay == 'rock') {
             userScore++
-            return "You win"
+            userStatus = "You win"
         }
         // computer scissor =  loose
         else if (computerPlay == 'scissor') {
             computerScore++
-            return 'You loose'
+            userStatus = 'You loose'
         }
         // computer paper = win
         else if (computerPlay == "paper") {
-            return "Draw"
+            userStatus = "Draw"
         } else {
-            return 'err'
+            userStatus = 'err'
         }
     } else {
         return 'err'
     }
+    return userStatus
 }
 
-// game module
-function game() {
-    let round = 0
-    let userPlay = userInput
-    let computerPlay = computerOutput
-    while (round != 5) {
-        console.log(play(userPlay(), computerPlay()))
-        round++
-    }
-    if (computerScore > userScore) {
-        console.log("Computer wins score is " + computerScore + " for computer and" + userScore + " for user")
-    } else if (userScore > computerScore) {
-        console.log("User wins score is " + computerScore + " for computer and" + userScore + " for user")
-    } else {
-        console.log("Draw! score is " + computerScore + " for computer and" + userScore + " for user")
-    }
-
-}
-
-
-
-function checkScore(userScore, computerScore) {
-    // 2 var
-    // track score
-    //record score
-    //increment
-    //si win ++
-
-}
-//combine computer and userinput
-
-// Verification module
-function checkInput(userInput) {
-    let status;
-    while (status != true) {
-        if (userInput == arr.find(item => item == userInput)) {
-            status = true
-            return userInput
-        } else {
-            userInput = prompt("Re enter value!").toLowerCase()
-            status = false
+// // game module
+function playRound(userChoice) {
+    if (round <= 5) {
+        let userStatus = play(userChoice, computerOutput())
+        if (userStatus == "You win") {
+            addPlayDiv('win')
+            updateScore(userScore, computerScore)
+            round++
+        } else if (userStatus == "You loose") {
+            addPlayDiv('loose')
+            updateScore(userScore, computerScore)
+            round++
+        } else if (userStatus == "Draw") {
+            addPlayDiv('draw')
+            updateScore(userScore, computerScore)
+            round++
         }
+    } else {
+        if (computerScore > userScore) {
+            finalGameState('computer')
+        } else if (userScore > computerScore) {
+            finalGameState('user')
+        } else {
+            finalGameState('draw')
+        }
+    }
+
+}
+
+
+
+//PlayDiv 
+function addPlayDiv(status) {
+    divContainer.insertBefore(playDiv, divComputerContainer)
+    playDiv.appendChild(gameStatusText)
+    playDiv.setAttribute("id", 'playdiv')
+    if (status == "win") {
+        gameStatusText.textContent = "win"
+        checkPlayDivClass('divwin')
+    } else if (status == "loose") {
+        gameStatusText.textContent = "Loose"
+        checkPlayDivClass('divloose')
+    } else if (status == 'draw') {
+        gameStatusText.textContent = "Draw"
+        checkPlayDivClass('divdraw')
+    } else {
+        return "Error!"
+    }
+}
+
+function removePlayDiv() {
+    divContainer.removeChild(playDiv)
+}
+
+function checkPlayDivClass(classToChange) {
+    const elementToSelect = document.querySelector('#playdiv')
+    if (elementToSelect.classList.contains('divloose')) {
+        elementToSelect.classList.remove('divloose')
+        elementToSelect.classList.add(classToChange)
+    } else if (elementToSelect.classList.contains('divwin')) {
+        elementToSelect.classList.remove('divwin')
+        elementToSelect.classList.add(classToChange)
+    } else if (elementToSelect.classList.contains('divdraw')) {
+        elementToSelect.classList.remove('divdraw')
+        elementToSelect.classList.add(classToChange)
+    } else {
+        elementToSelect.classList.add(classToChange)
+    }
+}
+
+function updateScore(userScore, computerScore) {
+    h2ComputerScore.textContent = computerScore
+    h2UserScore.textContent = userScore
+}
+
+function finalGameState(winner) {
+    if (winner == 'computer') {
+        gameStatusText.textContent = "Computer wins score is " + computerScore + " for computer and " + userScore + " for user"
+    } else if (winner == 'user') {
+        gameStatusText.textContent = "User wins score is " + computerScore + " for computer and" + userScore + " for user"
+    } else {
+        gameStatusText.textContent = "Draw! score is " + computerScore + " for computer and" + userScore + " for user"
     }
 }

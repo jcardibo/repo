@@ -1,0 +1,44 @@
+.divwin {
+    background-color: green;
+    padding: 40px;
+}
+
+.divloose {
+    background-color: red;
+    padding: 40px;
+}
+
+.divdraw {
+    background-color: yellow;
+    padding: 40px;
+}
+
+button {
+    margin: 5px;
+    border-radius: 3%;
+    border: 0px;
+    background-color: ;
+}
+
+#btnContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+#userContainer {
+    display: flex;
+    border: 10px solid red;
+    align-items: center;
+    flex-direction: column;
+}
+
+#computerContainer {
+    display: flex;
+    border: 10px solid red;
+    align-items: center;
+}
+
+#container {
+    display: flex;
+    justify-content: space-around;
+}

@@ -1,14 +1,35 @@
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> RockPaperScissor </title>
-    <script src="./index.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> RockPaperScissor </title>
+        <script defer src="./index.js"></script>
+        <link rel="stylesheet" href="./styles/main.css">
+    </head>
 
-<body>
-</body>
+    <body>
+        <div id="container">
+            <div id="userContainer">
+                <div id="textUserContainer">
+                    <h1>User score</h1>
+                    <h2 id="userScore"></h2>
+                </div>
+                <div id="btncontainer">
+                    <button class="btn" id="btnRock" onclick="playRound('rock')">Rock</button>
+                    <button class="btn" id="btnPaper" onclick="playRound('paper')">Paper</button>
+                    <button class="btn" id="btnScissor" onclick="playRound('scissor')">Scissor</button>
+                </div>
+            </div>
+
+            <div id="computerContainer">
+                <div id="textComputerContainer">
+                    <h1>Computer score</h1>
+                    <h2 id="computerScore"></h2>
+                </div>
+            </div>
+        </div>
+    </body>
 
 </html>
